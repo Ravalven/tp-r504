@@ -9,3 +9,4 @@ jobs:
 			  uses: actions/setup-python@v4
 			- name: Run tests
 			  run: pytest TP1/test.py
+			- name: test
