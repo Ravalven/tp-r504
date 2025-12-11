@@ -1,15 +1,25 @@
-FROM debian:11-slim
+FROM debian:12
 
-RUN apt update && apt upgrade -y && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
     build-essential \
-    pkg-config \
-    python3-dev \
-    python3-pip \
-    default-libmysqlclient-dev
+        pkg-config \
+        python3-dev \
+        python3-pip \
+        python3-setuptools \
+        python3-venv \
+        default-libmysqlclient-dev
 
-RUN pip3 install --upgrade pip
+RUN python3 -m venv /opt/venv
+RUN /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install --no-cache-dir flask flask-mysqldb mysql-connector-python
 
-RUN pip3 install flask-mysqldb mysql-connector-python
+ENV PATH="/opt/venv/bin:${PATH}"
 
+EXPOSE 5000 
 
-CMD ["flask","--app","/srv/app_1","run","--host=0.0.0.0","--reload"]
+ENV FLASK_ENV=development
+ENV FLASK_DEBUG=1
+
+CMD ["flask", "--app", "/srv/app_1", "run", "--host=0.0.0.0", "--reload"]
+

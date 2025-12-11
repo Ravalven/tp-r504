@@ -1,3 +1,2 @@
 # tp-r504
-[![badge](https://github.com/Ravalven/tp-r504/actions/workflows/pytest.yml/badge.svg)](https://github.com/Ravalven/tp-r504/actions)
-
+[![ALT textGH](https://github.com/CanuAntoine/tp-r504/actions/workflows/pytest.yml/badge.svg)](https://github.com/CanuAntoine/tp-r504/actions)

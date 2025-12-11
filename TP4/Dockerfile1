@@ -1,19 +1,26 @@
-FROM debian:11-slim
+FROM debian:12
 
-RUN apt update && apt upgrade -y && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
     build-essential \
     pkg-config \
     python3-dev \
     python3-pip \
+    python3-venv \
     default-libmysqlclient-dev
 
-RUN pip3 install --upgrade pip
+RUN python3 -m venv /srv/venv
 
-RUN pip3 install flask-mysqldb mysql-connector-python
-
+RUN /srv/venv/bin/pip install --upgrade pip && \
+    /srv/venv/bin/pip install \
+    flask-mysqldb \
+    mysql-connector-python
+    
 RUN mkdir -p /srv/templates
 
-COPY app_1.py /srv/
-COPY index.html /srv/templates/
+COPY srv/templates/index.html /srv/templates
+COPY srv/app_1.py /srv
 
-CMD ["flask","--app","/srv/app_1","run","--host=0.0.0.0"]
+ENV PATH="/srv/venv/bin:$PATH"
+
+CMD ["flask", "--app", "/srv/app_1", "run", "--host=0.0.0.0"]
